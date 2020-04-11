@@ -41,6 +41,7 @@ var resp_made = false;
 var block_break = false;
 var resp_start = [];
 var demo = true;
+var demographics = true;
 var template_params = [];
 var pageURL = window.location.href;
 var part_id = pageURL.substring(pageURL.indexOf("?")+1, pageURL.length);
@@ -117,7 +118,7 @@ $(document).ready(function() {
 
 function Run_Experiment(){
 	if (part == -1){
-		if (!demo_done){
+		if (demographics){
 			return
 		}
 		$('#demographics').hide();
@@ -184,7 +185,9 @@ function DoExample(ex){
 		}
 		example_part = 1;
 		part++;
-		demo = false;
+		if (ex == 2){
+			demo = false;
+		}
 	}
 }
 
@@ -616,7 +619,7 @@ function randperm(a){
 }
 
 function BeginExperiment(){
-	demo_done = true;
+	demographics = false;
 	D.dob = dob.value;
 	D.gender = gender.value;
 	Run_Experiment();
