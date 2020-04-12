@@ -66,7 +66,12 @@ var D = {"practice_main": [],
 		"main_grid_time": main_grid_time,
 		"num_opts": number_opts,
 		"part_id": part_id,
-		"start_time": new Date()
+		"start_time": new Date(),
+		"userAgent": navigator.userAgent, //browser and version
+    	"windowWidth": $(window).width(), //size of window HIT was completed in
+    	"windowHeight": $(window).height(),
+    	"screenWidth": screen.width,
+    	"screenHeight": screen.height,   
 	};
 var trial_info = {"pre_cue_type": [],
 		"valid_invalid": [],
