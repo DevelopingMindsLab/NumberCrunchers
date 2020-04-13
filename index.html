@@ -434,6 +434,7 @@ function RunTrial(block){
 	if (block_break){
 		$('#fb_mon').attr('src', 'Images/nm' + block + '_happy.png');
 		$('#feedback_monster').show();	
+		$('#feedback_monster').css('top', 300);
 		$('#main_text').html("Time to feed this number cruncher!");
 		$('#main_text').show();
 		block_break = false;
@@ -574,6 +575,7 @@ function ShowFeedback(acc){
 	} else {
 		$('#fb_mon').attr('src', 'Images/nm' + block + '_surprised.png');
 	}
+	$('#feedback_monster').css('top', 250);
 	$('#feedback_monster').show();
 	ready_for_next_trial = true;
 	trial_count++;
