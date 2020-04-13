@@ -46,7 +46,7 @@ var demographics = true;
 var template_params = [];
 var pageURL = window.location.href;
 var part_id = pageURL.substring(pageURL.indexOf("?")+1, pageURL.length);
-
+var did_end = false;
 var D = {"practice_main": [],
 		"pre_cue_type": [],
 		"valid_invalid": [],
@@ -83,6 +83,7 @@ var trial_info = {"pre_cue_type": [],
 		"cue_col": [],
 		"correct_answer": []
 	}
+
 
 $(document).ready(function() {
 	$(document).on('keyup',function(e) {
@@ -539,6 +540,10 @@ function KeyPress(n){
 }
 
 function RunEnd(){
+
+	if (did_end){
+		return;
+	}
 	$('#main_text').html("Great Job!");
 	$('#main_text').show();
 	$('#main_display').hide();
@@ -557,6 +562,7 @@ function RunEnd(){
 		.then(function(response) {
 		   console.log('SUCCESS!', response.status, response.text);
 		   //$("#submit_status").text('Picks sent! See your email for confirmation.');
+		   did_end = true;
 		}, function(error) {
 		   console.log('FAILED...', error);
 		   $('#email_fail').html(templateParams.message_html);
