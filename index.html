@@ -47,6 +47,7 @@ var template_params = [];
 var pageURL = window.location.href;
 var part_id = pageURL.substring(pageURL.indexOf("?")+1, pageURL.length);
 var did_end = false;
+var audio_count = 2;
 var D = {"practice_main": [],
 		"pre_cue_type": [],
 		"valid_invalid": [],
@@ -86,20 +87,6 @@ var trial_info = {"pre_cue_type": [],
 
 
 $(document).ready(function() {
-	$(document).on('keyup',function(e) {
-		if (e.which == 32 || e.code == 32){
-			Run_Experiment();
-		} else if (e.key >= 0 && e.key <= 9){
-			n = e.key;
-			KeyPress(n);
-		} else if (e.which - 48 >= 0 && e.which - 48 <= 9){
-			n = e.which;
-			KeyPress(n);
-		} else if (e.code - 48 >= 0 && e.code - 48 <= 9){
-			n = e.code;
-			KeyPress(n);
-		}
-	});
 	
 	$('#fixation').css('margin-left', -fix_width/2);
 	$('#fixation').css('height', fix_width);
@@ -129,6 +116,10 @@ function Run_Experiment(){
 		if (demographics){
 			return
 		}
+		aud = new Audio('AudioFiles/NC1.mp3');
+		aud.play();
+		aud.onended = Run_Experiment;
+		
 		$('#demographics').hide();
 		$('#main_text').show();
 		$('#m1').show();
@@ -151,6 +142,10 @@ function Run_Experiment(){
 		$('#m1').show();
 		$('#m2').hide();
 		$('#m3').hide();
+		aud.src = 'AudioFiles/NC' + audio_count + '.mp3';
+		aud.onended = ReadyToBegin;
+		audio_count++;
+		aud.play();
 		SetupPractice();
 		ready_for_next_trial = true;
 		//calculate practice trial parameters
@@ -167,7 +162,34 @@ function Run_Experiment(){
 	}
 }
 
+function ReadyToBegin(){
+	$(document).on('keyup',function(e) {
+		if (e.which == 32 || e.code == 32){
+			Run_Experiment();
+		} else if (e.key >= 0 && e.key <= 9){
+			n = e.key;
+			KeyPress(n);
+		} else if (e.which - 48 >= 0 && e.which - 48 <= 9){
+			n = e.which;
+			KeyPress(n);
+		} else if (e.code - 48 >= 0 && e.code - 48 <= 9){
+			n = e.code;
+			KeyPress(n);
+		}
+	});
+	$('#main_text').html("Let's Practice!" + "<br>" + "Press spacebar to begin.");
+}
+
 function DoExample(ex){
+	if (ex == 2 && example_part == 4){
+		setTimeout(function() {
+			Run_Experiment();
+		}, post_mask_time);
+	} else {
+		aud.src = 'AudioFiles/NC' + audio_count + '.mp3';
+		audio_count++;
+	}
+	aud.play();
 	if (example_part == 1){
 		$('#fixation').show();
 		ShowMasks();
@@ -767,6 +789,8 @@ function BeginExperiment(){
   <option value="2">Female</option>
   <option value="1">Male</option>
 </select>
+<br><br>
+This experiment contains audio instructions. Please turn on your speakers before beginning.
 <br><br>
 <input type="button" value="Click to Begin Experiment" onClick="BeginExperiment()">
 </div>
