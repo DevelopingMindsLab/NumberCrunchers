@@ -17,7 +17,8 @@
 
 <script>
 
-var part = -1;
+skip_demo = false;
+part = [];
 var num_width = 60;
 var fix_width = num_width/3;
 var num_height = 2*(5*num_width/6) + num_width/6;
@@ -47,6 +48,7 @@ var template_params = [];
 var pageURL = window.location.href;
 var part_id = pageURL.substring(pageURL.indexOf("?")+1, pageURL.length);
 var did_end = false;
+var acc = [];
 var audio_count = 2;
 var D = {"practice_main": [],
 		"pre_cue_type": [],
@@ -105,13 +107,39 @@ $(document).ready(function() {
 		var xpos = 0 - (5*offset/2) - num_width/2 + offset*(n-1);
 		$('#nc'+n).css('margin-left', xpos);
 	}
+	for (var rn=1; rn<=2; rn++){
+		$('#rn'+rn).css('display', 'none');
+		$('#rn'+rn).hide();
+		$('#rn'+rn).css('position', 'fixed');
+		$('#rn'+rn).css('width', num_width);
+		$('#rn'+rn).css('height', num_height);
+		$('#rn'+rn).css('top', num_top + 150);
+		$('#rn'+rn).css('left', '50%');
+	}
 	$('#main_text').hide();
 	$('#m1').hide();
 	$('#m2').hide();
 	$('#m3').hide();
+	$('#rn'+rn).css('display', 'none');
+	$('#q1').hide();
+	$('#q1').css('position', 'fixed');
+	$('#q1').css('width', num_width);
+	$('#q1').css('height', num_height);
+	$('#q1').css('top', num_top + 150);
+	$('#q1').css('left', '50%');
+	
+	if (!skip_demo){
+		part = -1;
+	} else {
+		part = 3;
+		ReadyToBegin();
+		SetupPractice();
+		ready_for_next_trial = true;
+	}
 });
 
 function Run_Experiment(){
+
 	if (part == -1){
 		if (demographics){
 			return
@@ -260,6 +288,10 @@ function ShowPostCue(locs){
 	for (var n=0; n<locs.length; n++){
 		$('#n'+locs[n]).attr("src", "Images/GreenCue.png");
 	}
+	cn = locs[0];
+	var xpos = 0 - (5*offset/2) - num_width/2 + offset*(cn-1);
+	$('#q1').css('margin-left', xpos);
+	$('#q1').show();
 	resp_start = new Date();
 }
 
@@ -458,6 +490,7 @@ function RunTrial(block){
 		$('#fb_mon').attr('src', 'Images/nm' + block + '_happy.png');
 		$('#feedback_monster').show();	
 		$('#feedback_monster').css('top', 300);
+		$('#main_text').css('top', '150px');
 		$('#main_text').html("Time to feed this number cruncher!");
 		$('#main_text').show();
 		block_break = false;
@@ -490,6 +523,9 @@ function RunTrial(block){
 	$('#fixation').show();
 	$('#main_text').hide();
 	$('#m' + block).hide();
+	$('#rn1').hide();
+	$('#rn2').hide();
+	$('#q1').hide();
 	$('#feedback_monster').hide();	
 		
 	//pre masks
@@ -527,38 +563,65 @@ function KeyPress(n){
 	
 	if (trial_info.answer_cue_type[trial_count] == 1){
 		D.resp[total_trial_count].push(Number(n));
+		if (n==0){
+			n=10;
+		}
 		resp_made = true;
 		if (n == trial_info.correct_answer[trial_count]){
-			var acc = 1;
+			acc = 1;
 		} else {
-			var acc = 0;
+			acc = 0;
 		}
+		cn = trial_info.cue_col[trial_count];
+		var xpos = 0 - (5*offset/2) - num_width/2 + offset*(cn-1);
+		$('#rn1').css('margin-left', xpos);
+		$('#r1').attr("src", "Images/Number_" + n + ".png");
+		$('#rn1').show();
+		$('#q1').hide();
 	} else if (trial_info.answer_cue_type[trial_count] == 2) {
 		if (D.resp[total_trial_count].length == 0){
 			D.resp[total_trial_count].push(Number(n));
+			cn = trial_info.cue_col[trial_count][0];
+			var xpos = 0 - (5*offset/2) - num_width/2 + offset*(cn-1);
+			$('#rn1').css('margin-left', xpos);
+			$('#r1').attr("src", "Images/Number_" + n + ".png");
+			$('#rn1').show();
+			cn2 = trial_info.cue_col[trial_count][1];
+			var xpos = 0 - (5*offset/2) - num_width/2 + offset*(cn2-1);
+			$('#q1').css('margin-left', xpos);
 		} else if (D.resp[total_trial_count].length == 1) {
 			if (D.resp[total_trial_count][0] != Number(n)){
+				cn = trial_info.cue_col[trial_count][1];
+				var xpos = 0 - (5*offset/2) - num_width/2 + offset*(cn-1);
+				$('#rn2').css('margin-left', xpos);
+				$('#r2').attr("src", "Images/Number_" + n + ".png");
+				$('#rn2').show();
+				$('#q1').hide();
 				D.resp[total_trial_count].push(Number(n));
 				resp_made = true;
-				if (trial_info.num_targs[trial_count].indexOf(D.resp[total_trial_count][0]) >= 0 && trial_info.num_targs[trial_count].indexOf(D.resp[total_trial_count][1]) >= 0){
-					var acc = 1;
-				} else if (trial_info.num_targs[trial_count].indexOf(D.resp[total_trial_count][0]) >= 0 || trial_info.num_targs[trial_count].indexOf(D.resp[total_trial_count][1]) >= 0){
-					var acc = .5;
+				if (trial_info.num_targs[trial_count].indexOf(D.resp[total_trial_count][0]) == 0 && trial_info.num_targs[trial_count].indexOf(D.resp[total_trial_count][1]) == 1){
+					acc = 1;
+				} else if (trial_info.num_targs[trial_count].indexOf(D.resp[total_trial_count][0]) >= 0 || trial_info.num_targs[trial_count].indexOf(D.resp[total_trial_count][1]) >= 1){
+					acc = .5;
 				} else {
-					var acc = 0;
+					acc = 0;
 				}
 			}
 		}
 	}
-	
 	
 	if (resp_made){
 		D.RT[total_trial_count] = new Date() - resp_start;
 		ready_for_resp = false;
 		resp_made = false;
 		D.acc[total_trial_count] = acc;
-		ShowFeedback(acc);
+		
+		setTimeout(function() {
+			ShowFeedback(acc);	
+		}, 500);
+		
 	}
+
 }
 
 function RunEnd(){
@@ -566,6 +629,7 @@ function RunEnd(){
 	if (did_end){
 		return;
 	}
+	$('#main_text').css('top', '150px');
 	$('#main_text').html("Great Job!");
 	$('#main_text').show();
 	$('#main_display').hide();
@@ -603,9 +667,22 @@ function ShowFeedback(acc){
 	} else {
 		$('#fb_mon').attr('src', 'Images/nm' + block + '_surprised.png');
 	}
-	$('#feedback_monster').css('top', 250);
+	$('#feedback_monster').css('top', '150px');
 	$('#feedback_monster').show();
-	ready_for_next_trial = true;
+	$('#main_text').css('top', '450px');
+	
+	if (part == 3 && trial_count == 0){
+		aud = new Audio('AudioFiles/otay.mp3');
+		//aud.src = 'AudioFiles/otay.mp3';
+		aud.onended = rfnt;
+		aud.play();
+	} else {
+		ready_for_next_trial = true;
+		$('#main_text').html('Press spacebar to continue.');
+		$('#main_text').show();
+	}
+	
+	
 	trial_count++;
 	total_trial_count++
 	if (trial_count == nTrials){ 
@@ -620,6 +697,12 @@ function ShowFeedback(acc){
 		block++;
 		block_break = true;
 	}
+}
+
+function rfnt(){
+	$('#main_text').html('Press spacebar to continue.');
+	$('#main_text').show();
+	ready_for_next_trial = true;
 }
 
 function getRandomInt(min_num, max_num) {
@@ -685,6 +768,12 @@ function BeginExperiment(){
 	display: none;
 }
 
+#q1{
+	text-align: center;
+	color: black;
+	font-size: 52px;
+}
+
 .monster {
 	position: absolute;	
 	width: 250px;
@@ -696,6 +785,7 @@ function BeginExperiment(){
 	width: 50px;
 	height: 100px;
 }
+
 
 #fixation {
 	position: fixed;
@@ -809,6 +899,9 @@ This experiment contains audio instructions. Please turn on your speakers before
 <div id="nc4"><img class="number" id="n4" src="Images/Number_8.png"></div>
 <div id="nc5"><img class="number" id="n5" src="Images/Number_8.png"></div>
 <div id="nc6"><img class="number" id="n6" src="Images/Number_8.png"></div>
+<div id="rn1"><img class="number" id="r1" src="Images/Number_8.png"></div>
+<div id="rn2"><img class="number" id="r2" src="Images/Number_8.png"></div>
+<div id="q1" class="number">?</div>
 </div>
 
 <div id="email_fail"></div>
