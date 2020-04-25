@@ -20,6 +20,9 @@
 skip_demo = false;
 part = [];
 var num_width = 60;
+var head_width = 240;
+var head_top = 450;
+var head_height = (840/812)*head_height;
 var fix_width = num_width/3;
 var num_height = 2*(5*num_width/6) + num_width/6;
 var offset = 3*(5*num_width/6);
@@ -50,6 +53,7 @@ var part_id = pageURL.substring(pageURL.indexOf("?")+1, pageURL.length);
 var did_end = false;
 var acc = [];
 var audio_count = 2;
+var arrow_size = 80;
 var D = {"practice_main": [],
 		"pre_cue_type": [],
 		"valid_invalid": [],
@@ -93,6 +97,20 @@ $(document).ready(function() {
 	$('#fixation').css('margin-left', -fix_width/2);
 	$('#fixation').css('height', fix_width);
 	$('#fixation').css('width', fix_width);
+	$('#arrow').css('height', arrow_size);
+	$('#arrow').css('width', arrow_size);
+	$('#arrow').css('margin-left', -arrow_size/2);
+	$('#arrow').css('top', num_top + 100);
+	$('#arrow').hide();
+	$('#ar').css('height', arrow_size);
+	$('#ar').css('width', arrow_size);
+	$('#arrow2').css('height', arrow_size);
+	$('#arrow2').css('width', arrow_size);
+	$('#arrow2').css('margin-left', -arrow_size/2);
+	$('#arrow2').css('top', num_top + 100);
+	$('#arrow2').hide();
+	$('#ar2').css('height', arrow_size);
+	$('#ar2').css('width', arrow_size);
 	$('#fixation').css('top', num_top + num_height/2 - fix_width/2);
 	$('#fixation').css('display', 'none');
 	$('.number').css('width', num_width);
@@ -115,18 +133,32 @@ $(document).ready(function() {
 		$('#rn'+rn).css('height', num_height);
 		$('#rn'+rn).css('top', num_top + 150);
 		$('#rn'+rn).css('left', '50%');
+		
+		
+		$('#head'+rn).css('display', 'none');
+		$('#head'+rn).hide();
+		$('#head'+rn).css('position', 'fixed');
+		$('#head'+rn).css('width', head_width);
+		$('#head'+rn).css('margin-left', -head_width/2);
+		$('#head'+rn).css('height', head_height);
+		$('#head'+rn).css('top', head_top);
+		$('#head'+rn).css('left', '50%');
+		
 	}
 	$('#main_text').hide();
 	$('#m1').hide();
 	$('#m2').hide();
 	$('#m3').hide();
 	$('#rn'+rn).css('display', 'none');
-	$('#q1').hide();
-	$('#q1').css('position', 'fixed');
-	$('#q1').css('width', num_width);
-	$('#q1').css('height', num_height);
-	$('#q1').css('top', num_top + 150);
-	$('#q1').css('left', '50%');
+	
+	for (q = 1; q <= 2; q++){
+		$('#q' + q).hide();
+		$('#q' + q).css('position', 'fixed');
+		$('#q' + q).css('width', num_width);
+		$('#q' + q).css('height', num_height);
+		$('#q' + q).css('top', num_top + 150);
+		$('#q' + q).css('left', '50%');
+	}
 	
 	if (!skip_demo){
 		part = -1;
@@ -212,7 +244,7 @@ function DoExample(ex){
 	if (ex == 2 && example_part == 4){
 		setTimeout(function() {
 			Run_Experiment();
-		}, post_mask_time);
+		}, 1000);
 	} else {
 		aud.src = 'AudioFiles/NC' + audio_count + '.mp3';
 		audio_count++;
@@ -220,26 +252,93 @@ function DoExample(ex){
 	aud.play();
 	if (example_part == 1){
 		$('#fixation').show();
+		$('#rn1').hide();
 		ShowMasks();
+		if (ex == 1){
+			setTimeout(function() {
+				$('#arrow').show();
+			}, 5000);
+			setTimeout(function() {
+				$('#head2').show();
+			}, 10000);
+		} else {
+			$('#arrow').css('margin-left', -arrow_size/2);
+			$('#arrow').css('top', num_top + 100);
+			setTimeout(function() {
+				$('#arrow').show();
+			}, 2000);
+			setTimeout(function() {
+				$('#head2').show();
+			}, 7000);
+		}
 		example_part++;
 	} else if (example_part == 2){
+		$('#arrow').hide();
+		$('#head2').hide();
 		ShowPreCue(ex);
 		example_part++;
 	} else if (example_part == 3){
 		if (ex == 1){
 			ShowNumbers([2,7], [2,4]);
+			
+			setTimeout(function() {
+				var xpos = 0 - (5*offset/2) - arrow_size/2 + offset*(2-1);
+				$('#arrow').css('margin-left', xpos);
+				$('#arrow').css('top', num_top + 150);
+				$('#arrow').show();
+				var xpos = 0 - (5*offset/2) - arrow_size/2 + offset*(4-1);
+				$('#arrow2').css('top', num_top + 150);
+				$('#arrow2').css('margin-left', xpos);
+				$('#arrow2').show();
+			}, 2000);
+			
 		} else if (ex == 2){
 			ShowNumbers([5,3], [3,5]);
+			
+			setTimeout(function() {
+				var xpos = 0 - (5*offset/2) - arrow_size/2 + offset*(3-1);
+				$('#arrow').css('margin-left', xpos);
+				$('#arrow').css('top', num_top + 150);
+				$('#arrow').show();
+				var xpos = 0 - (5*offset/2) - arrow_size/2 + offset*(5-1);
+				$('#arrow2').css('top', num_top + 150);
+				$('#arrow2').css('margin-left', xpos);
+				$('#arrow2').show();
+			}, 1000);
 		}
 		example_part++;
 	} else if (example_part == 4){
+		$('#arrow').hide();
+		$('#arrow2').hide();
 		ShowMasks();
 		example_part++;
 	} else if (example_part == 5){
 		if (ex == 1){
 			ShowPostCue([2]);
+			setTimeout(function() {
+				var xpos = 0 - (5*offset/2) - num_width/2 + offset*(2-1);
+				$('#rn1').css('margin-left', xpos);
+				$('#r1').attr("src", "Images/Number_" + 2 + ".png");
+				$('#rn1').show();
+				$('#q1').hide();
+			}, 14000);
 		} else if (ex == 2){
 			ShowPostCue([3,5]);
+			var xpos = 0 - (5*offset/2) - num_width/2 + offset*(5-1);
+			$('#q2').css('margin-left', xpos);
+			$('#q2').show();
+			setTimeout(function() {
+				var xpos = 0 - (5*offset/2) - num_width/2 + offset*(3-1);
+				$('#rn1').css('margin-left', xpos);
+				$('#r1').attr("src", "Images/Number_" + 5 + ".png");
+				$('#rn1').show();
+				var xpos = 0 - (5*offset/2) - num_width/2 + offset*(5-1);
+				$('#rn2').css('margin-left', xpos);
+				$('#r2').attr("src", "Images/Number_" + 3 + ".png");
+				$('#rn2').show();
+				$('#q1').hide();
+				$('#q2').hide();
+			}, 9500);
 		}
 		example_part = 1;
 		part++;
@@ -651,12 +750,12 @@ function RunEnd(){
 		   did_end = true;
 		}, function(error) {
 		   console.log('FAILED...', error);
-		   $('#email_fail').html(templateParams.message_html);
+		   /*$('#email_fail').html(templateParams.message_html);
 		   $('#email_fail').show();
 		   $('#main_text').hide();
 		   $('#m1').hide();
 	       $('#m2').hide();
-	       $('#m3').hide();
+	       $('#m3').hide();*/
 		});
 }
 
@@ -774,6 +873,12 @@ function BeginExperiment(){
 	font-size: 52px;
 }
 
+#q2{
+	text-align: center;
+	color: black;
+	font-size: 52px;
+}
+
 .monster {
 	position: absolute;	
 	width: 250px;
@@ -790,6 +895,33 @@ function BeginExperiment(){
 #fixation {
 	position: fixed;
 	background: white;
+	left: 50%;
+	display: none;
+}
+
+#arrow {
+	position: fixed;
+	background: white;
+	left: 50%;
+}
+
+#arrow2 {
+	position: fixed;
+	background: white;
+	left: 50%;
+}
+
+#h1 {
+	position: fixed;
+	background: white;
+	top: 500px;
+	left: 50%;
+}
+
+#h2 {
+	position: fixed;
+	background: white;
+	top: 500px;
 	left: 50%;
 }
 
@@ -878,7 +1010,10 @@ function BeginExperiment(){
   <option value="0"></option>
   <option value="2">Female</option>
   <option value="1">Male</option>
+  <option value="3">Other</option>
 </select>
+<br><br>
+Please make sure your child completes the task themselves. You may press the keys for your child, but it is very important that the answers are their own.
 <br><br>
 This experiment contains audio instructions. Please turn on your speakers before beginning.
 <br><br>
@@ -902,7 +1037,13 @@ This experiment contains audio instructions. Please turn on your speakers before
 <div id="rn1"><img class="number" id="r1" src="Images/Number_8.png"></div>
 <div id="rn2"><img class="number" id="r2" src="Images/Number_8.png"></div>
 <div id="q1" class="number">?</div>
+<div id="q2" class="number">?</div>
 </div>
+
+<div id="h1"><img id="head1" src="Images/head1.png"></div>
+<div id="h2"><img id="head2" src="Images/head2.png"></div>
+<div id="arrow"><img id="ar" src="Images/arrow.png"></div>
+<div id="arrow2"><img id="ar2" src="Images/arrow.png"></div>
 
 <div id="email_fail"></div>
 
