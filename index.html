@@ -244,7 +244,7 @@ function DoExample(ex){
 	if (ex == 2 && example_part == 4){
 		setTimeout(function() {
 			Run_Experiment();
-		}, 1000);
+		}, post_mask_time);
 	} else {
 		aud.src = 'AudioFiles/NC' + audio_count + '.mp3';
 		audio_count++;
@@ -1012,7 +1012,7 @@ function BeginExperiment(){
   <option value="1">Male</option>
   <option value="3">Other</option>
 </select>
-<br><br>
+
 Please make sure your child completes the task themselves. You may press the keys for your child, but it is very important that the answers are their own.
 <br><br>
 This experiment contains audio instructions. Please turn on your speakers before beginning.
