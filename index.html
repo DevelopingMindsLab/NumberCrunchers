@@ -17,8 +17,9 @@
 
 <script>
 
-skip_demo = false;
-part = [];
+var isPlaying = false;
+var skip_demo = false;
+var part = [];
 var num_width = 60;
 var head_width = 240;
 var head_top = 450;
@@ -592,6 +593,15 @@ function RunTrial(block){
 		$('#main_text').css('top', '150px');
 		$('#main_text').html("Time to feed this number cruncher!");
 		$('#main_text').show();
+		
+		if (block == 2){
+			ready_for_next_trial = false;
+			aud.src = 'AudioFiles/NC' + audio_count + '.mp3';
+			aud.onended = function(){ready_for_next_trial = true;};;
+			audio_count++;
+			aud.play();
+		}
+		
 		block_break = false;
 		return;
 	}
@@ -843,10 +853,30 @@ function randperm(a){
 }
 
 function BeginExperiment(){
+	if (dob.value.length <= 0){
+		$('#birth_warning').show();
+		return;
+		
+	}
+
+	$('#birth_warning').hide();
 	demographics = false;
 	D.dob = dob.value;
 	D.gender = gender.value;
 	Run_Experiment();
+}
+
+function TestAudio(){
+
+	if (isPlaying){
+		return;
+	}
+	
+	isPlaying = true;
+	$("#audio_test").attr('value', 'Audio is playing');
+	aud = new Audio('AudioFiles/test.mp3');
+	aud.onended = function(){$("#audio_test").attr('value', 'Click here to Test Audio'); isPlaying = false;};
+	aud.play();
 }
 
 
@@ -864,6 +894,11 @@ function BeginExperiment(){
 	color: black;
 	font-size: 52px;
 	margin-left: -325px;
+	display: none;
+}
+
+#birth_warning {
+	color: red;
 	display: none;
 }
 
@@ -1004,20 +1039,18 @@ function BeginExperiment(){
 <p>Thank you for participating in this study! Please enter your child's demographic information below (optional):</p>
 <br>
 <label for="dob">Child's Date of Birth:</label>
-<input type="date" id="dob"><br><br>
-<label for="gender">Child's Sex:</label>
-<select id="gender">
-  <option value="0"></option>
-  <option value="2">Female</option>
-  <option value="1">Male</option>
-  <option value="3">Other</option>
-</select>
+<input type="date" id="dob"><div id="birth_warning">* required</div>
+<br><br>
+Child's Sex (optional): <input type="text" id="gender" size="10" value=""></td>
+
 <br><br>
 Please make sure your child completes the task themselves. You may press the keys for your child, but it is very important that the answers are their own.
 <br><br>
-This experiment contains audio instructions. Please turn on your speakers before beginning.
+This experiment contains audio instructions. <b>Please turn on your speakers before beginning</b>.
 <br><br>
-<input type="button" value="Click to Begin Experiment" onClick="BeginExperiment()">
+<input id="audio_test" type="button" value="Click here to Test Audio" onClick="TestAudio()">
+<br><br>
+<input type="button" value="Click here to Begin Experiment" onClick="BeginExperiment()">
 </div>
 
 <div id="main_text">Number Crunchers!</div>
