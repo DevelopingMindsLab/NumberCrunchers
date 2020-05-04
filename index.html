@@ -1047,16 +1047,12 @@ function TestAudio(){
 <div class="hidden">
 	<script type="text/javascript">
 			var images = new Array();
+			var audio_files = new Array();
 			var g = [];
 			for (var j = 1; j <= 20; j++){
 				g.push("Images/Number_" + j +".png");
 			}
-			function preload(a) {
-				for (i = 0; i < a.length; i++) {
-					images[i] = new Image()
-					images[i].src = a[i];
-				}
-			}
+			
 			for (var i = 1; i <=3; i++){
 				g.push("Images/nm" + i + "_happy.png");
 				g.push("Images/nm" + i + "_surprised.png");
@@ -1064,7 +1060,24 @@ function TestAudio(){
 			g.push("Images/RedCue.png");
 			g.push("Images/GreenCue.png");
 			g.push("Images/Fixation.png");
+			function preload(a) {
+				for (i = 0; i < a.length; i++) {
+					images[i] = new Image()
+					images[i].src = a[i];
+				}
+			}
+			var au = [];
+			for (var nc = 1; nc <= 12; nc++){
+				au.push('AudioFiles/NC' + nc + '.mp3');
+			}
+			function preload_audio(b) {
+				for (i = 0; i < b.length; i++) {
+					audio_files[i] = new audio()
+					audio_files[i].src = a[i];
+				}
+			}
 			preload(g);
+			preload(au);
 	</script>
 </div>
 
@@ -1072,7 +1085,7 @@ function TestAudio(){
 <p>Thank you for participating in this study! Please enter your child's demographic information below:</p>
 <br>
 <label for="dob">Child's Date of Birth:</label>
-<input type="date" id="dob"><div id="birth_warning">* required</div>
+<input type="date" id="dob" placeholder="mm/dd/yyyy"><div id="birth_warning">* required</div>
 <br><br>
 Child's Sex (optional): <input type="text" id="gender" size="10" value=""></td>
 
