@@ -1072,8 +1072,8 @@ function TestAudio(){
 			}
 			function preload_audio(b) {
 				for (i = 0; i < b.length; i++) {
-					audio_files[i] = new audio()
-					audio_files[i].src = a[i];
+					audio_files[i] = new Audio()
+					audio_files[i].src = b[i];
 				}
 			}
 			preload(g);
