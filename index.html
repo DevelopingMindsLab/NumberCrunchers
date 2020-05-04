@@ -177,6 +177,10 @@ function Run_Experiment(){
 		if (demographics){
 			return
 		}
+		
+
+		$('body').css('cursor', 'none');
+		$('#mouse_hider').show();
 		aud = new Audio('AudioFiles/NC1.mp3');
 		aud.play();
 		aud.onended = Run_Experiment;
@@ -267,10 +271,10 @@ function DoExample(ex){
 			$('#arrow').css('top', num_top + 100);
 			setTimeout(function() {
 				$('#arrow').show();
-			}, 2000);
+			}, 8000);
 			setTimeout(function() {
 				$('#head2').show();
-			}, 7000);
+			}, 10000);
 		}
 		example_part++;
 	} else if (example_part == 2){
@@ -325,21 +329,39 @@ function DoExample(ex){
 			}, 14000);
 		} else if (ex == 2){
 			ShowPostCue([3,5]);
+			$('#q1').hide();
 			var xpos = 0 - (5*offset/2) - num_width/2 + offset*(5-1);
 			$('#q2').css('margin-left', xpos);
-			$('#q2').show();
+			
 			setTimeout(function() {
+				$('#q1').show();
+			}, 14200);
+			setTimeout(function() {
+				$('#q1').hide();
+				$('#q2').show();
+			}, 16500);
+			
+			setTimeout(function() {
+				$('#q2').hide();
+				$('#q1').show();
+			}, 19000);
+			
+			setTimeout(function() {
+				$('#q1').hide();
+				$('#q2').show();
 				var xpos = 0 - (5*offset/2) - num_width/2 + offset*(3-1);
 				$('#rn1').css('margin-left', xpos);
 				$('#r1').attr("src", "Images/Number_" + 5 + ".png");
 				$('#rn1').show();
+			}, 20000);
+			
+			setTimeout(function() {
+				$('#q2').hide();
 				var xpos = 0 - (5*offset/2) - num_width/2 + offset*(5-1);
 				$('#rn2').css('margin-left', xpos);
 				$('#r2').attr("src", "Images/Number_" + 3 + ".png");
 				$('#rn2').show();
-				$('#q1').hide();
-				$('#q2').hide();
-			}, 9500);
+			}, 21000);
 		}
 		example_part = 1;
 		part++;
@@ -993,6 +1015,17 @@ function TestAudio(){
 	display: none;
 }
 
+#mouse_hider {
+	position: fixed;
+	background: none;
+	top: 100px;
+	left: 50%;
+	width: 1000px;
+	height: 500px;
+	margin-left: -500px;
+	display: none;
+}
+
 #feedback_monster {
 	position: fixed;
 	background: white;
@@ -1053,6 +1086,7 @@ This experiment contains audio instructions. <b>Please turn on your speakers bef
 <input type="button" value="Click here to Begin Experiment" onClick="BeginExperiment()">
 </div>
 
+<div id = "mouse_hider"></div>
 <div id="main_text">Number Crunchers!</div>
 <div id="m1"><img class="monster" src="Images/nm1_happy.png"></div>
 <div id="m2"><img class="monster" src="Images/nm2_happy.png"></div>
