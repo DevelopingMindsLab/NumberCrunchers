@@ -804,7 +804,6 @@ function ShowFeedback(acc){
 	
 	if (part == 3 && trial_count == 0){
 		aud = new Audio('AudioFiles/otay.mp3');
-		//aud.src = 'AudioFiles/otay.mp3';
 		aud.onended = rfnt;
 		aud.play();
 	} else {
@@ -1092,10 +1091,12 @@ Child's Sex (optional): <input type="text" id="gender" size="10" value=""></td>
 <br><br>
 Please make sure your child completes the task themselves. You may press the keys for your child, but it is very important that the answers are their own.
 <br><br>
-This experiment contains audio instructions. <b>Please turn on your speakers before beginning</b>.
-<br><br>
+This experiment contains audio instructions.<br> <b>Please click the button below to make sure the audio is playing at a comfortable level.</b>
+<br>
 <input id="audio_test" type="button" value="Click here to Test Audio" onClick="TestAudio()">
 <br><br>
+Once you have entered your child's demographic info and tested your sound level, click below to begin!
+<br>
 <input type="button" value="Click here to Begin Experiment" onClick="BeginExperiment()">
 </div>
 
