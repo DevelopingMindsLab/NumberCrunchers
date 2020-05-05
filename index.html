@@ -760,6 +760,7 @@ function RunEnd(){
 	if (did_end){
 		return;
 	}
+	did_end = true;
 	$('#main_text').css('top', '150px');
 	$('#main_text').html("Great Job!");
 	$('#main_text').show();
@@ -779,7 +780,6 @@ function RunEnd(){
 		.then(function(response) {
 		   console.log('SUCCESS!', response.status, response.text);
 		   //$("#submit_status").text('Picks sent! See your email for confirmation.');
-		   did_end = true;
 		}, function(error) {
 		   console.log('FAILED...', error);
 		   /*$('#email_fail').html(templateParams.message_html);
