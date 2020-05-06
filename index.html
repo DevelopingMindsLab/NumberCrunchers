@@ -94,7 +94,7 @@ var trial_info = {"pre_cue_type": [],
 
 
 $(document).ready(function() {
-	
+	$('#demographics').hide();
 	$('#fixation').css('margin-left', -fix_width/2);
 	$('#fixation').css('height', fix_width);
 	$('#fixation').css('width', fix_width);
@@ -162,7 +162,7 @@ $(document).ready(function() {
 	}
 	
 	if (!skip_demo){
-		part = -1;
+		part = -2;
 	} else {
 		part = 3;
 		ReadyToBegin();
@@ -173,7 +173,11 @@ $(document).ready(function() {
 
 function Run_Experiment(){
 
-	if (part == -1){
+	if (part == -2){
+		$('#consent').hide();
+		$('#demographics').show();
+		part++
+	} else if (part == -1){
 		if (demographics){
 			return
 		}
@@ -1134,6 +1138,41 @@ Once you have entered your child's demographic info and tested your sound level,
 
 <div id="email_fail"></div>
 
+<div id="consent">
+<img src="Images/master_logo_BU.gif" alt="BU Logo"><br>
+<b>Research Consent Form, Boston University Dept. of Psychological & Brain Sciences</b>
+<br><br>
+<b>Project:</b> Development of Working Memory in Social & Non-Social Contexts<br>
+<b>Principal investigator:</b> Dr. Melissa Kibbe, Assistant Professor, Boston University<br>
+<b>Study Title:</b> Development of working memory for objects in social and non-social contexts<br>
+<b>IRB Protocol Number:</b> 3594E<br>
+<b>Consent Form Valid Date:</b> 05/06/2020<br>
+<b>Study Expiration Date:</b> 09/11/2020
+<br><br>
+Please read this form carefully. The purpose of this form is to provide you with important information about taking part in a research study. This form may contain words that you do not understand. Please ask the study staff to explain any words that you do not understand.
+<br><br>
+<b>Study background and purpose:</b> The purpose of this study is to look at how children remember and attend to objects. Previous research has shown that both adults and children are limited in the number of objects they can pay attention to or hold in working memory. This research explores the development of attention and working memory by exploring children’s ability to pay attention to and remember information about objects over short periods of time in both non-social and social contexts.
+<br><br>
+<b>What happens in this research study:</b> The study takes about 10-15 minutes to run and a parent must be present at all times.
+<br><br>
+<b>Risks and Discomforts:</b> This research does not involve any risks or discomforts beyond those experienced in everyday life. All of your child’s responses will be kept anonymous and confidential.
+<br><br>
+<b>Benefits:</b> You or your child will not receive any direct benefits from your participation in this research. However, there are indirect benefits in that your participation will increase knowledge about children’s developing memory abilities.
+<br><br>
+<b>Costs/ Payments:</b> Your child will receive a $10 Amazon gift card for participating in this research. Aside from time, there are no known costs to you for participating in this research study.
+<br><br>
+<b>Confidentiality:</b> All records of data will be kept confidential by storing them on a secure server, by identifying subjects by random codes rather than a name, and by allowing nobody other than laboratory personnel access to research materials. Publications and conference presentations of the data will not identify individuals and will present results in aggregated form.
+<br><br>
+<b>Voluntary Participation:</b> Taking part in this research is voluntary. You and your child have a right to refuse to take part in this research. If you decide to be in this research and then change your mind, you can withdraw from the research at any time. Refusal to participate will not involve any penalty or loss of benefits to which you and your child are otherwise entitled.
+<br><br>
+<b>Alternatives:</b> The alternative to participating in this study is not to participate.
+<br><br>
+<b>Contacts:</b> If you have questions or concerns regarding this research, either now or at any time in the future, please contact Professor Melissa Kibbe at kibbe@bu.edu or (617) 358-1587. You may obtain further information about your rights as a research subject by contacting the BU Institutional Review Board for Human Subjects Research at IRB@bu.edu or (617) 358-6115.
+<br><br>
+<b>Agreement to Participate:</b> By checking the box below, you are indicating that you have read this consent form or it has been read to you. You are indicating that you voluntarily agree to allow your child to participate. You will be emailed a copy of the consent form to keep.
+<br><br>
+<input type="checkbox" id="check" onclick="Run_Experiment()"> I agree to have my child participate
+</div>
 
 </body>
 </html>
