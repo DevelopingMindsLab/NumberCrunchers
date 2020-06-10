@@ -716,6 +716,9 @@ function KeyPress(n){
 	} else if (trial_info.answer_cue_type[trial_count] == 2) {
 		if (D.resp[total_trial_count].length == 0){
 			D.resp[total_trial_count].push(Number(n));
+			if (n==0){
+				n=10;
+			}	
 			cn = trial_info.cue_col[trial_count][0];
 			var xpos = 0 - (5*offset/2) - num_width/2 + offset*(cn-1);
 			$('#rn1').css('margin-left', xpos);
@@ -727,6 +730,9 @@ function KeyPress(n){
 		} else if (D.resp[total_trial_count].length == 1) {
 			if (D.resp[total_trial_count][0] != Number(n)){
 				cn = trial_info.cue_col[trial_count][1];
+				if (n==0){
+					n=10;
+				}	
 				var xpos = 0 - (5*offset/2) - num_width/2 + offset*(cn-1);
 				$('#rn2').css('margin-left', xpos);
 				$('#r2').attr("src", "Images/Number_" + n + ".png");
@@ -1101,7 +1107,7 @@ Child's Sex (optional): <input type="text" id="gender" size="10" value=""></td>
 <br><br><br>
 Please make sure your child completes the task themselves. You may press the keys for your child, but it is very important that the answers are their own.
 <br><br>
-This experiment contains audio instructions.<br> <b>Please click the button below to make sure the audio is playing at a comfortable level.</b>
+This experiment contains audio instructions.<br><b>Please click the button below to make sure the audio is playing at a comfortable level.</b>
 <br>
 <input id="audio_test" type="button" value="Click here to Test Audio" onClick="TestAudio()">
 <br><br>
