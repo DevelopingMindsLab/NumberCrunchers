@@ -91,6 +91,7 @@ var trial_info = {"pre_cue_type": [],
 		"cue_col": [],
 		"correct_answer": []
 	}
+var active = false;
 
 
 $(document).ready(function() {
@@ -161,13 +162,19 @@ $(document).ready(function() {
 		$('#q' + q).css('left', '50%');
 	}
 	
-	if (!skip_demo){
-		part = -2;
+	if (active){
+		if (!skip_demo){
+			part = -2;
+		} else {
+			part = 3;
+			ReadyToBegin();
+			SetupPractice();
+			ready_for_next_trial = true;
+		}
 	} else {
-		part = 3;
-		ReadyToBegin();
-		SetupPractice();
-		ready_for_next_trial = true;
+		$('#consent').hide();
+		$('#main_text').html("This experiment is no longer active.<br><br>Thank you for your interest in participating!");
+		$('#main_text').show();
 	}
 });
 
@@ -887,7 +894,6 @@ function BeginExperiment(){
 	if (dob.value.length <= 0){
 		$('#birth_warning').show();
 		return;
-		
 	}
 
 	$('#birth_warning').hide();
