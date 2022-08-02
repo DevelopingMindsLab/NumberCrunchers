@@ -158,7 +158,8 @@ $(document).ready(function() {
 	
 	if (active){
 		if (!skip_demo){
-			part = 0;
+			part = -1;
+			Run_Experiment();
 		} else {
 			part = 3;
 			ReadyToBegin();
@@ -183,7 +184,7 @@ function Run_Experiment(){
 			return
 		}
 		
-
+		$('#consent').hide();
 		$('body').css('cursor', 'none');
 		$('#mouse_hider').show();
 		aud = new Audio('AudioFiles/NC1.mp3');
