@@ -158,8 +158,8 @@ $(document).ready(function() {
 	
 	if (active){
 		if (!skip_demo){
-			part = -1;
-			Run_Experiment();
+			part = -2;
+			RunExperiment();
 		} else {
 			part = 3;
 			ReadyToBegin();
@@ -184,7 +184,7 @@ function Run_Experiment(){
 			return
 		}
 		
-		$('#consent').hide();
+
 		$('body').css('cursor', 'none');
 		$('#mouse_hider').show();
 		aud = new Audio('AudioFiles/NC1.mp3');
@@ -783,7 +783,24 @@ function RunEnd(){
 	$('#m2').show();
 	$('#m3').show();
 	
-	return;
+	templateParams = {
+		participant_id: part_id,
+		message_html: JSON.stringify(D)
+	};
+ 
+	emailjs.send('numbercruncher', 'template_UzSHZpHJ', templateParams)
+		.then(function(response) {
+		   console.log('SUCCESS!', response.status, response.text);
+		   //$("#submit_status").text('Picks sent! See your email for confirmation.');
+		}, function(error) {
+		   console.log('FAILED...', error);
+		   /*$('#email_fail').html(templateParams.message_html);
+		   $('#email_fail').show();
+		   $('#main_text').hide();
+		   $('#m1').hide();
+	       $('#m2').hide();
+	       $('#m3').hide();*/
+		});
 }
 
 function ShowFeedback(acc){
